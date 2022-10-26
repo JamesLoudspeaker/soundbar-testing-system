@@ -1,0 +1,3 @@
+[submodule "dependencies/tic-arduino"]
+	path = dependencies/tic-arduino
+	url = https://github.com/pololu/tic-arduino
