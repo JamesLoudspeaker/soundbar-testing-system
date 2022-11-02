@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,12 +46,76 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void set_led_status(bool on_status){
+	HAL_GPIO_WritePin(BLUE_LED_ON_BOARD_GPIO_Port, BLUE_LED_ON_BOARD_Pin, on_status);
+	HAL_GPIO_WritePin(RED_LED_ON_BOARD_GPIO_Port, RED_LED_ON_BOARD_Pin, on_status);
+	HAL_GPIO_WritePin(GREEN_LED_ON_BOARD_GPIO_Port, GREEN_LED_ON_BOARD_Pin, on_status);
+}
+
+void sos_signal_test(){
+	// Morse code out S.O.S.
+	const uint16_t delay_time = 200; // in milliseconds
+
+	// --- S (3 short)
+
+	set_led_status(1);    // 1st cycle
+	HAL_Delay(delay_time);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	set_led_status(1);    // 2nd cycle
+	HAL_Delay(delay_time);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	set_led_status(1);    // 3rd cycle
+	HAL_Delay(delay_time);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	// --- O (3 long)
+	set_led_status(1);    // 1st cycle
+	HAL_Delay(delay_time*3);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	set_led_status(1);    // 2nd cycle
+	HAL_Delay(delay_time*3);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	set_led_status(1);    // 3rd cycle
+	HAL_Delay(delay_time*3);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	// --- S (3 short)
+
+	set_led_status(1);    // 1st cycle
+	HAL_Delay(delay_time);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	set_led_status(1);    // 2nd cycle
+	HAL_Delay(delay_time);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	set_led_status(1);    // 3rd cycle
+	HAL_Delay(delay_time);
+	set_led_status(0);
+	HAL_Delay(delay_time);
+
+	HAL_Delay(delay_time*4);
+}
 
 /* USER CODE END 0 */
 
@@ -82,14 +146,22 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+  MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  // enable blue LED
+  //enable clock access to GPIOB
+
   while (1)
   {
+	  GPIO_PinState user_button_state = HAL_GPIO_ReadPin(BUTTON_ON_BOARD_GPIO_Port, BUTTON_ON_BOARD_Pin);
+	  if(user_button_state == GPIO_PIN_SET){
+		  sos_signal_test();
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -148,6 +220,48 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOE_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GREEN_LED_ON_BOARD_Pin|RED_LED_ON_BOARD_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BLUE_LED_ON_BOARD_GPIO_Port, BLUE_LED_ON_BOARD_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : BUTTON_ON_BOARD_Pin */
+  GPIO_InitStruct.Pin = BUTTON_ON_BOARD_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(BUTTON_ON_BOARD_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : GREEN_LED_ON_BOARD_Pin RED_LED_ON_BOARD_Pin */
+  GPIO_InitStruct.Pin = GREEN_LED_ON_BOARD_Pin|RED_LED_ON_BOARD_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BLUE_LED_ON_BOARD_Pin */
+  GPIO_InitStruct.Pin = BLUE_LED_ON_BOARD_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(BLUE_LED_ON_BOARD_GPIO_Port, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
