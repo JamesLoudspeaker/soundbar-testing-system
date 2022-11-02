@@ -1,6 +1,5 @@
 # SoundBar Testing System
-This repo contains the required files to build the current JLS SoundBar booth test system for the Arduino platform.
+This repo contains the required files to build the JLS SoundBar booth test system for the STM32 platform.
 #### Succesfully Builds and runs on
-  -  Arduino IDE v1.8.19
-  -  Arduino Mega
-  -  Tic-arduino Lib v2.1.1 (Stepper motor dependency)
+  -  STM32CubeIDE v1.10.1
+  -  Nucleo-144 (STM32H7A3ZIT6Q)
