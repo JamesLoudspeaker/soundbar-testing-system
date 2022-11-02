@@ -63,8 +63,8 @@ void Error_Handler(void);
 #define GREEN_LED_ON_BOARD_GPIO_Port GPIOB
 #define RED_LED_ON_BOARD_Pin GPIO_PIN_14
 #define RED_LED_ON_BOARD_GPIO_Port GPIOB
-#define BLUE_LED_ON_BOARD_Pin GPIO_PIN_1
-#define BLUE_LED_ON_BOARD_GPIO_Port GPIOE
+#define ORANGE_LED_ON_BOARD_Pin GPIO_PIN_1
+#define ORANGE_LED_ON_BOARD_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

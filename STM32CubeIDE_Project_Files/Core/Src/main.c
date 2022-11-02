@@ -55,7 +55,7 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN 0 */
 
 void set_led_status(bool on_status){
-	HAL_GPIO_WritePin(BLUE_LED_ON_BOARD_GPIO_Port, BLUE_LED_ON_BOARD_Pin, on_status);
+	HAL_GPIO_WritePin(ORANGE_LED_ON_BOARD_GPIO_Port, ORANGE_LED_ON_BOARD_Pin, on_status);
 	HAL_GPIO_WritePin(RED_LED_ON_BOARD_GPIO_Port, RED_LED_ON_BOARD_Pin, on_status);
 	HAL_GPIO_WritePin(GREEN_LED_ON_BOARD_GPIO_Port, GREEN_LED_ON_BOARD_Pin, on_status);
 }
@@ -240,7 +240,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, GREEN_LED_ON_BOARD_Pin|RED_LED_ON_BOARD_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(BLUE_LED_ON_BOARD_GPIO_Port, BLUE_LED_ON_BOARD_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(ORANGE_LED_ON_BOARD_GPIO_Port, ORANGE_LED_ON_BOARD_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : BUTTON_ON_BOARD_Pin */
   GPIO_InitStruct.Pin = BUTTON_ON_BOARD_Pin;
@@ -255,12 +255,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : BLUE_LED_ON_BOARD_Pin */
-  GPIO_InitStruct.Pin = BLUE_LED_ON_BOARD_Pin;
+  /*Configure GPIO pin : ORANGE_LED_ON_BOARD_Pin */
+  GPIO_InitStruct.Pin = ORANGE_LED_ON_BOARD_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(BLUE_LED_ON_BOARD_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(ORANGE_LED_ON_BOARD_GPIO_Port, &GPIO_InitStruct);
 
 }
 
