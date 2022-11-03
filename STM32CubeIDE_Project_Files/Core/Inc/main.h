@@ -57,12 +57,15 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BUTTON_ON_BOARD_Pin GPIO_PIN_13
-#define BUTTON_ON_BOARD_GPIO_Port GPIOC
+#define USER_BUTTON_ON_BOARD_Pin GPIO_PIN_13
+#define USER_BUTTON_ON_BOARD_GPIO_Port GPIOC
 #define GREEN_LED_ON_BOARD_Pin GPIO_PIN_0
 #define GREEN_LED_ON_BOARD_GPIO_Port GPIOB
 #define RED_LED_ON_BOARD_Pin GPIO_PIN_14
 #define RED_LED_ON_BOARD_GPIO_Port GPIOB
+#define EMERGENCY_STOP_BTN_Pin GPIO_PIN_10
+#define EMERGENCY_STOP_BTN_GPIO_Port GPIOD
+#define EMERGENCY_STOP_BTN_EXTI_IRQn EXTI15_10_IRQn
 #define ORANGE_LED_ON_BOARD_Pin GPIO_PIN_1
 #define ORANGE_LED_ON_BOARD_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */

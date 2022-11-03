@@ -158,7 +158,7 @@ int main(void)
 
   while (1)
   {
-	  GPIO_PinState user_button_state = HAL_GPIO_ReadPin(BUTTON_ON_BOARD_GPIO_Port, BUTTON_ON_BOARD_Pin);
+	  GPIO_PinState user_button_state = HAL_GPIO_ReadPin(USER_BUTTON_ON_BOARD_GPIO_Port, USER_BUTTON_ON_BOARD_Pin);
 	  if(user_button_state == GPIO_PIN_SET){
 		  sos_signal_test();
 	  }
@@ -234,6 +234,7 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOE_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
@@ -242,11 +243,11 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(ORANGE_LED_ON_BOARD_GPIO_Port, ORANGE_LED_ON_BOARD_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : BUTTON_ON_BOARD_Pin */
-  GPIO_InitStruct.Pin = BUTTON_ON_BOARD_Pin;
+  /*Configure GPIO pin : USER_BUTTON_ON_BOARD_Pin */
+  GPIO_InitStruct.Pin = USER_BUTTON_ON_BOARD_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(BUTTON_ON_BOARD_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(USER_BUTTON_ON_BOARD_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : GREEN_LED_ON_BOARD_Pin RED_LED_ON_BOARD_Pin */
   GPIO_InitStruct.Pin = GREEN_LED_ON_BOARD_Pin|RED_LED_ON_BOARD_Pin;
@@ -255,6 +256,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : EMERGENCY_STOP_BTN_Pin */
+  GPIO_InitStruct.Pin = EMERGENCY_STOP_BTN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(EMERGENCY_STOP_BTN_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pin : ORANGE_LED_ON_BOARD_Pin */
   GPIO_InitStruct.Pin = ORANGE_LED_ON_BOARD_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -262,10 +269,20 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(ORANGE_LED_ON_BOARD_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)  // setup test interrupt
+{
+	set_led_status(1);
+	while(true){
+		// emergency stop
+	}
+}
 /* USER CODE END 4 */
 
 /**
